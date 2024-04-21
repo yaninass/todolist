@@ -15,7 +15,7 @@ def edit_task(request, task_id):
         form = TaskFormEdit(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Перенаправление на список задач или другую страницу
+            return redirect('home')
 
     return render(request, 'main/edit_task.html', {'form': form})
 
@@ -29,10 +29,17 @@ class AddTaskView(View):
         form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.user = request.user  # Привязываем текущего пользователя к задаче
+            task.user = request.user
             task.save()
-            return redirect('home')  # Перенаправляем пользователя на список задач
+            return redirect('home')
         return render(request, 'main/add_task.html', {'form': form})
+
+
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    if request.method == 'POST':
+        task.delete()
+    return redirect('home')
 
 
 def register(request):
@@ -71,5 +78,7 @@ def user_logout(request):
 
 
 def index(request):
-    tasks = Task.objects.all()
+    undone_tasks = Task.objects.filter(isDo=False)
+    done_tasks = Task.objects.filter(isDo=True)
+    tasks = list(undone_tasks) + list(done_tasks)
     return render(request, 'main/index.html', {'title': 'Главная страница сайта', 'tasks': tasks})
