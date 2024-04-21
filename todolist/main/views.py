@@ -78,7 +78,7 @@ def user_logout(request):
 
 
 def index(request):
-    undone_tasks = Task.objects.filter(isDo=False)
-    done_tasks = Task.objects.filter(isDo=True)
+    undone_tasks = Task.objects.filter(isDo=False).order_by('-pk')
+    done_tasks = Task.objects.filter(isDo=True).order_by('-pk')
     tasks = list(undone_tasks) + list(done_tasks)
     return render(request, 'main/index.html', {'title': 'Главная страница сайта', 'tasks': tasks})
