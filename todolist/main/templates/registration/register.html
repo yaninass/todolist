@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+{% block knopka %}
+    <a class="btn btn-outline-primary" href="{% url 'login' %}">Войти</a>
+{% endblock %}
+{% block content %}
+    <section class="vh-100 bg-image">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5">
+                                <h2 class="text-uppercase text-center mb-5">Регистрация</h2>
+                                <form method="post" action="{% url 'register' %}">
+                                    {% csrf_token %}
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="username" name="username" class="form-control form-control-lg" />
+                                        <label class="form-label" for="username">Имя пользователя</label>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="password" id="password1" name="password1" class="form-control form-control-lg" />
+                                        <label class="form-label" for="password1">Пароль</label>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="password" id="password2" name="password2" class="form-control form-control-lg" />
+                                        <label class="form-label" for="password2">Повторите пароль</label>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Зарегистрироваться</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,47 @@
+
+{% extends 'main/base.html' %}
+
+{% block title %}
+Вход в аккаунт
+{% endblock %}
+{% block knopka %}
+    <a class="btn btn-outline-primary" href="{% url 'register' %}">Зарегистрироваться</a>
+{% endblock %}
+{% block content %}
+    <section class="vh-100 bg-image">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5">
+                                <h2 class="text-uppercase text-center mb-5">Вход в аккаунт</h2>
+                                  {% if form.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>Ошибка!</strong> Неправильный логин или пароль.
+                                    </div>
+                                {% endif %}
+                                <form method="post" action="{% url 'login' %}">
+                                    {% csrf_token %}
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="text" id="username" name="username" class="form-control form-control-lg" />
+                                        <label class="form-label" for="username">Имя пользователя</label>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                                        <label class="form-label" for="password">Пароль</label>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Войти</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
