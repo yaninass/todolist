@@ -3,11 +3,11 @@
 {% block title %}
 Регистрация
 {% endblock %}
-{% block knopka %}
-    <a class="btn btn-outline-primary" href="{% url 'login' %}">Войти</a>
-{% endblock %}
+
+
+
 {% block content %}
-    <section class="vh-100 bg-image">
+    <section class="vh-100 bg-image" style="margin-top: -50px;">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -17,6 +17,16 @@
                                 <h2 class="text-uppercase text-center mb-5">Регистрация</h2>
                                 <form method="post" action="{% url 'register' %}">
                                     {% csrf_token %}
+                                    {% if form.errors %}
+                                        <div class="alert alert-danger">
+                                            {% for field_errors in form.errors.values %}
+                                                {% for error in field_errors %}
+                                                    <p>{{ error }}</p>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <input type="text" id="username" name="username" class="form-control form-control-lg" />
                                         <label class="form-label" for="username">Имя пользователя</label>
@@ -34,6 +44,7 @@
                                     <div class="d-flex justify-content-center">
                                         <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Зарегистрироваться</button>
                                     </div>
+                                     <p style="text-align: center">Есть аккаунт? <a href="{% url 'login' %}"> Войти</a></p>
                                 </form>
                             </div>
                         </div>

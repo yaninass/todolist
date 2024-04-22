@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
-from .forms import TaskForm, TaskFormEdit,AddTaskToUserForm
+from .forms import TaskForm, TaskFormEdit, AddTaskToUserForm
 from .models import Task
 
 
@@ -23,14 +23,23 @@ def add_task_for_user(request):
         form = AddTaskToUserForm()
     return render(request, 'main/add_task_for_user.html', {'form': form})
 
+
 def edit_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
-    form = TaskFormEdit(instance=task)
+
     if request.method == 'POST':
         form = TaskFormEdit(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect('home')
+
+            if request.user.is_superuser and task.user != request.user:
+                redirect_url = 'view_other_users_tasks'
+            else:
+                redirect_url = 'home'
+            return redirect(redirect_url)
+    else:
+        form = TaskFormEdit(instance=task)
+
     return render(request, 'main/edit_task.html', {'form': form})
 
 
@@ -53,8 +62,18 @@ def delete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     if request.method == 'POST':
         task.delete()
+        if request.user.is_superuser and task.user != request.user:
+            redirect_url = 'view_other_users_tasks'
+        else:
+            redirect_url = 'home'
+        return redirect(redirect_url)
     return redirect('home')
 
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm
 
 def register(request):
     if request.method == 'POST':
@@ -67,6 +86,17 @@ def register(request):
             login(request, user)
             messages.success(request, 'Вы успешно зарегистрировались!')
             return redirect('home')
+        else:
+            # Check for specific errors and display corresponding error messages
+            if 'username' in form.errors:
+                error_message = form.errors['username'][0]
+                messages.error(request, f'Ошибка: {error_message}')
+            if 'password1' in form.errors:
+                error_message = form.errors['password1'][0]
+                messages.error(request, f'Ошибка: {error_message}')
+            if 'password2' in form.errors:
+                error_message = form.errors['password2'][0]
+                messages.error(request, f'Ошибка: {error_message}')
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})

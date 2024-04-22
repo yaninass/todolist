@@ -4,16 +4,7 @@
 {% block title %}
 Просмотр задач других пользователей
 {% endblock %}
-{% block knopka %}
 
-<nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" href="{% url 'home'%}">Мои задачи</a>
-  </nav>
-<a class="p-2 text-dark" style="text-decoration: none;"><b>Добро пожаловать, {{ user.username }}!</b></a>
-<a class="btn btn-outline-primary" href="{% url 'logout' %}">Выйти</a>
-
-
-{% endblock %}
 {% block content %}
 <a href="{% url 'add_task_for_user' %}" class="btn btn-primary">Добавить задачу пользователю</a>
 <h2>Задачи других пользователей:</h2>

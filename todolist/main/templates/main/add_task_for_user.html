@@ -1,15 +1,50 @@
-
 {% extends 'main/base.html' %}
 
 {% block title %}
-Добавить задачу пользователю
+Добавить задачу
 {% endblock %}
 
+
 {% block content %}
-<h2>Добавить задачу пользователю</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Добавить задачу</button>
-</form>
+<section class="vh-100 bg-image">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Добавить задачу</h2>
+                            {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Ошибка!</strong> Пожалуйста, исправьте ошибки в форме.
+                            </div>
+                            {% endif %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                     <label for="id_user" class="form-label">Пользователь</label>
+                                    {{ form.user }}
+                                </div>
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label for="id_header" class="form-label">Название</label>
+                                    {{ form.header }}
+                                </div>
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                     <label for="id_dispatcher" class="form-label">Описание</label>
+                                    {{ form.dispatcher }}
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Создать
+                                        задачу
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

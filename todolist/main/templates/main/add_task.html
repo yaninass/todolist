@@ -3,15 +3,7 @@
 {% block title %}
 {{ Добавить}}
 {% endblock %}
-{% block knopka %}
 
-<nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" href="{% url 'home'%}">Мои задачи</a>
-  </nav>
-<a class="p-2 text-dark" style=" text-decoration: none;"><b> Добро пожаловать, {{ user.username }}!</b></a>
-<a class="btn btn-outline-primary" href="{% url 'logout' %}">Выйти</a>
-
-{% endblock %}
 {% block content %}
 <section class="vh-100 bg-image">
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
