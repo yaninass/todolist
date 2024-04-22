@@ -4,9 +4,24 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
-from .forms import TaskForm, TaskFormEdit
+from .forms import TaskForm, TaskFormEdit,AddTaskToUserForm
 from .models import Task
 
+
+def view_other_users_tasks(request):
+    tasks = Task.objects.exclude(user__is_superuser=True)
+    return render(request, 'main/other_users_tasks.html', {'tasks': tasks})
+
+
+def add_task_for_user(request):
+    if request.method == 'POST':
+        form = AddTaskToUserForm(request.POST)
+        if form.is_valid():
+            task = form.save()
+            return redirect('view_other_users_tasks')
+    else:
+        form = AddTaskToUserForm()
+    return render(request, 'main/add_task_for_user.html', {'form': form})
 
 def edit_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
@@ -16,7 +31,6 @@ def edit_task(request, task_id):
         if form.is_valid():
             form.save()
             return redirect('home')
-
     return render(request, 'main/edit_task.html', {'form': form})
 
 

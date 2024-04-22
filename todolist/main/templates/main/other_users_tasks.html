@@ -1,34 +1,28 @@
+
 {% extends 'main/base.html' %}
 
 {% block title %}
-{{ title }}
+Просмотр задач других пользователей
 {% endblock %}
 {% block knopka %}
 
-{% if user.is_authenticated %}
 <nav class="my-2 my-md-0 mr-md-3">
     <a class="p-2 text-dark" href="{% url 'home'%}">Мои задачи</a>
   </nav>
-<a class="p-2 text-dark" style=" text-decoration: none;"><b> Добро пожаловать, {{ user.username }}!</b></a>
+<a class="p-2 text-dark" style="text-decoration: none;"><b>Добро пожаловать, {{ user.username }}!</b></a>
 <a class="btn btn-outline-primary" href="{% url 'logout' %}">Выйти</a>
-{% else %}
-<a class="btn btn-outline-primary" href="{% url 'login' %}">Войти</a>
-<a class="btn btn-outline-primary" href="{% url 'register' %}">Зарегистрироваться</a>
-{% endif %}
+
 
 {% endblock %}
 {% block content %}
+<a href="{% url 'add_task_for_user' %}" class="btn btn-primary">Добавить задачу пользователю</a>
+<h2>Задачи других пользователей:</h2>
 
-{% if user.is_authenticated %}
-<a href="{% url 'add_task' %}" class="btn btn-primary">Добавить задачу</a>
-{%if user.is_superuser%}
-<a href="{% url 'view_other_users_tasks' %}" class="btn btn-primary">Просмотреть задачи пользователей </a>
-{% endif%}
-{% if tasks %}
-{% for task in tasks %}
-{% if task.user == user %}
+    {% for task in tasks %}
+
 <div class="alert mt-2 {% if not task.isDo %}alert-danger{% else %}alert-success{% endif %}">
     <h3>{{ task.header }}</h3>
+    <h5>Пользователь: {{ task.user.username }}</h5>
     <p>{{ task.dispatcher }}</p>
     {% if task.isDo %}
     <p>Выполнено</p>
@@ -43,13 +37,6 @@
     </form>
 
 </div>
-{% endif %}
-{% endfor %}
+    {% endfor %}
 
-{% endif %}
-
-
-{% else %}
-<h2 style="text_align:center;">Чтобы использовать наш сервис, вам нужно авторизироваться или зарегистрироваться.</h2>
-{% endif %}
 {% endblock %}

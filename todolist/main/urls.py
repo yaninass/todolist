@@ -11,4 +11,6 @@ urlpatterns = [
     path('add_task/', AddTaskView.as_view(), name='add_task'),
     path('edit_task/<int:task_id>/', views.edit_task, name='edit_task'),
     path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
+    path('view-other-users-tasks/', views.view_other_users_tasks, name='view_other_users_tasks'),
+    path('add-task-for-user/', views.add_task_for_user, name='add_task_for_user'),
 ]
