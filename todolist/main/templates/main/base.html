@@ -25,11 +25,12 @@
 <a class="p-2 text-dark" style=" text-decoration: none;"><b> Добро пожаловать, {{ user.username }}!</b></a>
 <a class="btn btn-outline-primary" href="{% url 'logout' %}">Выйти</a>
 {% else %}
+      <a class="p-2 text-dark mx-2" href="{% url 'home'%}">Главная</a>
 {% if request.path == '/login/' %}
-       <a class="p-2 text-dark" href="{% url 'home'%}">Главная</a>
+
     <a class="btn btn-outline-primary mx-2" href="{% url 'register' %}">Зарегистрироваться</a>
 {% elif request.path == '/register/' %}
-          <a class="p-2 text-dark" href="{% url 'home'%}">Главная</a>
+
     <a class="btn btn-outline-primary mx-2" href="{% url 'login' %}">Войти</a>
 {% else %}
    <a class="btn btn-outline-primary mx-2" href="{% url 'login' %}">Войти</a>
